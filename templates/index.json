@@ -1,0 +1,43 @@
+{
+  "sections": {
+    "hero": {
+      "type": "stitch-hero",
+      "settings": {
+        "title": "Esencia Natural",
+        "description": "Descubre el poder de la naturaleza para una piel radiante.",
+        "use_glass": true
+      }
+    },
+    "discounts": {
+      "type": "stitch-progressive-discounts",
+      "settings": {}
+    },
+    "featured_products": {
+      "type": "stitch-featured-products",
+      "settings": {
+        "title": "Los Más Amados",
+        "collection": "all",
+        "products_to_show": 4
+      }
+    },
+    "philosophy": {
+      "type": "stitch-philosophy",
+      "settings": {
+        "title": "Nuestra Filosofía"
+      }
+    },
+    "testimonials": {
+      "type": "stitch-testimonials",
+      "settings": {
+        "title": "Lo que dicen nuestras clientas"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "discounts",
+    "featured_products",
+    "philosophy",
+    "testimonials"
+  ]
+}

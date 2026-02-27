@@ -1,0 +1,95 @@
+<section class="stitch-section bg-white py-24 overflow-hidden">
+  <div class="max-w-[1280px] mx-auto px-6">
+    <div class="flex flex-col items-center mb-16 text-center">
+      <div class="flex items-center gap-1 text-[#D4AF37] mb-4">
+        {%- for i in (1..5) -%}<span class="material-symbols-outlined icon-filled text-sm">star</span>{%- endfor -%}
+      </div>
+      <h2 class="text-4xl lg:text-5xl font-extrabold text-[#2C3E30]">{{ section.settings.title }}</h2>
+      <p class="text-slate-500 mt-4 max-w-2xl">{{ section.settings.description }}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {%- for block in section.blocks -%}
+        <div class="p-8 rounded-[2rem] bg-[#F5F5F1] border border-slate-100 flex flex-col h-full" {{ block.shopify_attributes }}>
+          <div class="flex items-center gap-4 mb-6">
+            <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-200 shrink-0">
+              {%- if block.settings.image != blank -%}
+                <img src="{{ block.settings.image | image_url: width: 100 }}" alt="{{ block.settings.name }}" class="w-full h-full object-cover">
+              {%- else -%}
+                <div class="w-full h-full bg-[#7D8E7E] flex items-center justify-center text-white font-bold">{{ block.settings.name | slice: 0 }}</div>
+              {%- endif -%}
+            </div>
+            <div>
+              <p class="font-bold text-[#2C3E30] leading-none">{{ block.settings.name }}</p>
+              <p class="text-[10px] font-bold uppercase tracking-widest text-[#7D8E7E] mt-1 flex items-center gap-1">
+                <span class="material-symbols-outlined text-[10px]">verified</span>
+                Cliente Verificada
+              </p>
+            </div>
+          </div>
+          <blockquote class="text-slate-600 italic font-light leading-relaxed mb-6">
+            "{{ block.settings.quote }}"
+          </blockquote>
+          <div class="mt-auto flex gap-0.5 text-[#D4AF37]">
+            {%- for i in (1..5) -%}<span class="material-symbols-outlined icon-filled text-xs">star</span>{%- endfor -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Stitch: Testimonios",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Lo que dicen nuestras clientas"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Descripción",
+      "default": "Más de 5,000 mujeres ya han transformado su piel con nosotros."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonio",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Foto del cliente"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Nombre",
+          "default": "Valentina R."
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Comentario",
+          "default": "Increíble cómo cambió la textura de mi cara en solo 2 semanas. El pack SheaSkin es ahora mi ritual diario infaltable."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Stitch: Testimonios",
+      "blocks": [
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" }
+      ]
+    }
+  ]
+}
+{% endschema %}

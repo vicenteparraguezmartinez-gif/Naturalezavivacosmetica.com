@@ -1,0 +1,187 @@
+<section class="stitch-section relative w-full overflow-hidden flex items-center justify-center" style="height: {{ section.settings.height }}vh; min-height: 400px; background-color: #111;">
+  
+  <div class="absolute inset-0 pointer-events-none">
+    <video autoplay loop muted playsinline class="w-full h-full object-cover" style="opacity: {{ section.settings.video_opacity | divided_by: 100.0 }};">
+      <source src="{{ section.settings.video_url }}" type="video/mp4">
+    </video>
+    <div class="absolute inset-0" style="background-color: rgba(0,0,0,{{ section.settings.overlay_opacity | divided_by: 100.0 }});"></div>
+  </div>
+
+  <div class="max-w-[1280px] mx-auto px-6 relative z-10 w-full">
+    <div class="flex {{ section.settings.content_position }}">
+      
+      <div class="p-8 md:p-12 lg:p-16 rounded-3xl transition-all duration-500"
+        style="
+          max-width: {{ section.settings.content_width }}px;
+          {% if section.settings.use_glass %}
+            background-color: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+          {% endif %}
+          text-align: {{ section.settings.text_align }};
+        ">
+
+        <div class="flex flex-col gap-6 items-{{ section.settings.text_align | replace: 'left', 'start' | replace: 'right', 'end' | replace: 'center', 'center' }}">
+          
+          {%- if section.settings.eyebrow != blank -%}
+            <div class="flex items-center gap-3 text-white font-bold tracking-widest text-xs uppercase opacity-90">
+              <span class="w-8 h-[2px]" style="background-color: {{ section.settings.accent_color }};"></span>
+              {{ section.settings.eyebrow }}
+            </div>
+          {%- endif -%}
+
+          <h1 class="font-display font-extrabold text-white leading-[1.1] tracking-tight" style="font-size: clamp(2.5rem, {{ section.settings.title_size }}vw, 5rem);">
+            {{ section.settings.title }}
+          </h1>
+
+          {%- if section.settings.description != blank -%}
+            <p class="text-white text-lg md:text-xl font-light leading-relaxed max-w-xl opacity-90">
+              {{ section.settings.description }}
+            </p>
+          {%- endif -%}
+
+          <div class="flex flex-wrap gap-4 pt-4">
+            {%- if section.settings.btn_label != blank -%}
+              <a href="{{ section.settings.btn_url }}" 
+                 class="px-10 py-4 rounded-full font-bold text-lg text-white shadow-xl transition-all transform hover:-translate-y-1"
+                 style="background-color: {{ section.settings.accent_color }};">
+                {{ section.settings.btn_label }}
+              </a>
+            {%- endif -%}
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Stitch: Banner de Video",
+  "settings": [
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "URL del video (MP4 directo)",
+      "default": "https://cdn.shopify.com/videos/c/o/v/b3307699eaf047f9919336493589c014.mp4"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Altura del banner (vh)",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "video_opacity",
+      "label": "Opacidad del video",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Oscuridad (Overlay)",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "default": 30
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Posición del contenido",
+      "options": [
+        { "value": "justify-start", "label": "Izquierda" },
+        { "value": "justify-center", "label": "Centro" },
+        { "value": "justify-end", "label": "Derecha" }
+      ],
+      "default": "justify-start"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Alineación del texto",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" },
+        { "value": "right", "label": "Derecha" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "label": "Ancho máximo del contenido (px)",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "default": 700
+    },
+    {
+      "type": "checkbox",
+      "id": "use_glass",
+      "label": "Usar efecto de cristal (glassmorphism)",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Texto pequeño arriba",
+      "default": "Nueva Colección"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título principal",
+      "default": "Esencia Natural"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Tamaño del título (vw)",
+      "min": 2,
+      "max": 10,
+      "step": 0.5,
+      "default": 5
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Descripción",
+      "default": "Descubre el poder de la naturaleza para una piel radiante."
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Color de acento",
+      "default": "#FF6B35"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Botón principal",
+      "default": "Comprar ahora"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Link botón principal"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Stitch: Banner de Video"
+    }
+  ]
+}
+{% endschema %}

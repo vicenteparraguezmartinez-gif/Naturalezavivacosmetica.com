@@ -1,0 +1,113 @@
+<section class="stitch-section bg-paper py-24">
+  <div class="max-w-[1280px] mx-auto px-6">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+      <div class="max-w-xl">
+        <span class="font-bold tracking-widest text-[#FF6B35] text-xs uppercase mb-2 block">{{ section.settings.eyebrow }}</span>
+        <h2 class="text-4xl lg:text-5xl font-extrabold text-[#2C3E30] leading-tight">{{ section.settings.title }}</h2>
+      </div>
+      <a href="{{ section.settings.collection.url }}" class="text-[#7D8E7E] font-bold text-sm uppercase tracking-widest border-b-2 border-[#7D8E7E]/20 hover:border-[#FF6B35] transition-colors pb-1">
+        Ver todo el catálogo
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-{{ section.settings.columns_desktop }} gap-8">
+      {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
+        
+        {%- comment -%} Profitability Filter logic {%- endcomment -%}
+        {%- if cart.total_price == 0 and product.price < 2500000 -%}{%- continue -%}{%- endif -%}
+
+        <div class="group flex flex-col h-full stitch-product-card">
+          <div class="relative aspect-[3/4] rounded-[2rem] overflow-hidden bg-white shadow-soft transition-all duration-500 group-hover:shadow-layered group-hover:-translate-y-1">
+            
+            <a href="{{ product.url }}" class="block w-full h-full">
+              {%- if product.featured_image -%}
+                <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+              {%- endif -%}
+              {%- if product.images[1] != blank -%}
+                <img src="{{ product.images[1] | image_url: width: 600 }}" alt="{{ product.title }}" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 group-hover:opacity-100">
+              {%- endif -%}
+            </a>
+
+            {%- if product.compare_at_price > product.price -%}
+              <div class="absolute top-4 left-4 bg-[#FF6B35] text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Oferta</div>
+            {%- endif -%}
+
+            <button 
+              data-stitch-add-to-cart 
+              data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+              class="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-md text-[#2C3E30] py-4 rounded-2xl font-bold text-sm shadow-xl transition-all translate-y-20 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 hover:bg-[#FF6B35] hover:text-white flex items-center justify-center gap-2">
+              <span class="material-symbols-outlined text-lg">shopping_bag</span>
+              Añadir al carrito
+            </button>
+          </div>
+
+          <div class="mt-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-bold text-[#2C3E30] text-lg hover:text-[#FF6B35] transition-colors">
+                <a href="{{ product.url }}">{{ product.title }}</a>
+              </h3>
+              <div class="flex items-center gap-1 text-[#D4AF37]">
+                <span class="material-symbols-outlined icon-filled text-xs">star</span>
+                <span class="text-[10px] font-bold text-slate-400">4.9</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-[#2C3E30] font-black text-xl">{{ product.price | money }}</span>
+              {%- if product.compare_at_price > product.price -%}
+                <span class="text-slate-300 line-through text-sm font-light">{{ product.compare_at_price | money }}</span>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Stitch: Productos Destac.",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Cejilla",
+      "default": "Los más amados"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Favoritos de la Comunidad"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Colección"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4,
+      "label": "Productos a mostrar"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4,
+      "label": "Columnas en desktop"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Stitch: Productos Destacados"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,81 @@
+<section class="stitch-section bg-bg py-24">
+  <div class="max-w-[1280px] mx-auto px-6">
+    <div class="flex flex-col items-center mb-16 text-center">
+      <span class="font-bold tracking-widest text-[#FF6B35] text-xs uppercase mb-2">{{ section.settings.eyebrow }}</span>
+      <h2 class="text-4xl lg:text-5xl font-extrabold text-[#2C3E30]">{{ section.settings.title }}</h2>
+      <div class="w-16 h-1 bg-[#FF6B35]/20 mt-4 rounded-full"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+      {%- for block in section.blocks -%}
+        <div class="group flex flex-col items-center text-center p-8 bg-white rounded-3xl shadow-soft border border-slate-50 transition-all duration-300 hover:shadow-layered hover:-translate-y-1" {{ block.shopify_attributes }}>
+          <div class="w-16 h-16 rounded-2xl bg-[#F5F5F1] flex items-center justify-center mb-6 group-hover:bg-[#FF6B35]/10 transition-colors">
+            <span class="material-symbols-outlined text-3xl text-[#7D8E7E] group-hover:text-[#FF6B35] transition-colors">
+              {{ block.settings.icon }}
+            </span>
+          </div>
+          <h3 class="text-xl font-bold text-[#2C3E30] mb-3">{{ block.settings.heading }}</h3>
+          <p class="text-slate-500 font-light leading-relaxed">
+            {{ block.settings.text }}
+          </p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Stitch: Nuestra Filosofía",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Cejilla",
+      "default": "Ingredientes Naturales"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Nuestra Filosofía"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingrediente/Pilar",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icono (Nombre de Material Symbol)",
+          "default": "eco"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Encabezado",
+          "default": "100% Orgánico"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Descripción",
+          "default": "Cultivamos nuestros propios activos botánicos siguiendo los ciclos naturales."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Stitch: Nuestra Filosofía",
+      "blocks": [
+        { "type": "ingredient" },
+        { "type": "ingredient" },
+        { "type": "ingredient" }
+      ]
+    }
+  ]
+}
+{% endschema %}
