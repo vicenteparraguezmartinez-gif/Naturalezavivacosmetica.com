@@ -20,6 +20,19 @@
   Usage:
   {% render 'card-product', show_vendor: section.settings.show_vendor %}
 {% endcomment %}
+{%- if cart.total_price == 0 and card_product.price < 2500000 -%}
+  <div class="stitch-lock-card group p-6 rounded-[2rem] border border-dashed border-slate-200 bg-slate-50/30 flex flex-col items-center justify-center text-center gap-3 transition-all hover:bg-white hover:border-slate-300">
+    <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
+      <span class="material-symbols-outlined text-slate-300 scale-75">lock</span>
+    </div>
+    <div>
+      <p class="text-[10px] font-bold text-[#7D8E7E] uppercase tracking-widest mb-1">{{ card_product.title }}</p>
+      <p class="text-[9px] text-slate-400 leading-tight max-w-[140px] mx-auto">Añade un producto principal para desbloquear complementos</p>
+    </div>
+    <div class="mt-2 text-[10px] font-black text-slate-300">{{ card_product.price | money }}</div>
+  </div>
+  {%- return -%}
+{%- endif -%}
 {%- unless skip_styles -%}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
